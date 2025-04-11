@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Elements -->
+    <circle cx="400" cy="300" r="250" fill="#F5F7FF" opacity="0.5"/>
+    <circle cx="400" cy="300" r="200" fill="#E8ECFF" opacity="0.3"/>
+    
+    <!-- Website Window -->
+    <rect x="250" y="150" width="400" height="300" rx="8" fill="white" stroke="#E1E4E8" stroke-width="2"/>
+    <rect x="250" y="150" width="400" height="30" rx="8" fill="#F1F3F9"/>
+    <circle cx="270" cy="165" r="4" fill="#FF6B6B"/>
+    <circle cx="285" cy="165" r="4" fill="#FFD93D"/>
+    <circle cx="300" cy="165" r="4" fill="#6BCB77"/>
+    
+    <!-- Website Content -->
+    <rect x="270" y="200" width="150" height="20" rx="4" fill="#E1E4E8"/>
+    <rect x="270" y="240" width="360" height="10" rx="2" fill="#F1F3F9"/>
+    <rect x="270" y="260" width="320" height="10" rx="2" fill="#F1F3F9"/>
+    <rect x="270" y="280" width="340" height="10" rx="2" fill="#F1F3F9"/>
+    <rect x="270" y="320" width="120" height="40" rx="4" fill="#6C63FF"/>
+    
+    <!-- Person -->
+    <path d="M450 250 C450 180 520 180 520 250" fill="#6C63FF"/> <!-- Shirt -->
+    <circle cx="485" cy="160" r="30" fill="#FFD3B6"/> <!-- Head -->
+    <path d="M470 155 Q485 170 500 155" stroke="#333" stroke-width="2" fill="none"/> <!-- Smile -->
+    <circle cx="475" cy="150" r="3" fill="#333"/> <!-- Left Eye -->
+    <circle cx="495" cy="150" r="3" fill="#333"/> <!-- Right Eye -->
+    
+    <!-- Code Elements -->
+    <rect x="580" y="200" width="40" height="8" rx="2" fill="#6C63FF" opacity="0.6"/>
+    <rect x="580" y="220" width="30" height="8" rx="2" fill="#6C63FF" opacity="0.4"/>
+    <rect x="580" y="240" width="50" height="8" rx="2" fill="#6C63FF" opacity="0.6"/>
+</svg> 

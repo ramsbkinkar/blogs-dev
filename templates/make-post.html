@@ -1,39 +1,60 @@
-{% from "bootstrap5/form.html" import render_form %}
-{% block content %}
 {% include "header.html" %}
 
-<!-- Page Header -->
-<header
-  class="masthead"
-  style="background-image: url('../static/assets/img/edit-bg.jpg')"
->
-  <div class="container position-relative px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7">
-        <div class="page-heading">
-          {% if is_edit: %}
-          <h1>Edit Post</h1>
-          {% else: %}
-          <h1>New Post</h1>
-          {% endif %}
-          <span class="subheading"
-            >You're going to make a great blog post!</span
-          >
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-5">
+          <h2 class="card-title text-center mb-4">
+            {% if is_edit %}
+            Edit Post
+            {% else %}
+            Create New Post
+            {% endif %}
+          </h2>
+          
+          {{ ckeditor.load() }}
+          {{ ckeditor.config(name='body') }}
+          {{ form.csrf_token }}
+          
+          <form action="" method="post">
+            <div class="mb-4">
+              {{ form.title.label(class="form-label") }}
+              {{ form.title(class="form-control") }}
+            </div>
+            
+            <div class="mb-4">
+              {{ form.subtitle.label(class="form-label") }}
+              {{ form.subtitle(class="form-control") }}
+            </div>
+            
+            <div class="mb-4">
+              {{ form.img_url.label(class="form-label") }}
+              {{ form.img_url(class="form-control") }}
+            </div>
+            
+            <div class="mb-4">
+              {{ form.body.label(class="form-label") }}
+              {{ form.body(class="form-control") }}
+            </div>
+            
+            <div class="d-flex justify-content-end gap-2 mt-5">
+              <a href="{{ url_for('get_all_posts') }}" class="btn btn-outline-secondary">
+                Cancel
+              </a>
+              <button type="submit" class="btn btn-primary">
+                {% if is_edit %}
+                Save Changes
+                {% else %}
+                Publish Post
+                {% endif %}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-</header>
+</div>
 
-<main class="mb-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        {{ ckeditor.load() }}
-        {{ ckeditor.config(name='body') }}
-        {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
-      </div>
-    </div>
-  </div>
-</main>
-{% include "footer.html" %} {% endblock %}
+{% include "footer.html" %}
