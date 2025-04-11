@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -18,15 +18,15 @@
       type="image/x-icon"
       href="{{ url_for('static', filename='assets/favicon.ico') }}"
     />
-    <!-- Font Awesome icons (free version)-->
+    <!-- Font Awesome icons -->
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
     <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Core theme CSS -->
     <link
       href="{{ url_for('static', filename='css/styles.css') }}"
       rel="stylesheet"
@@ -36,90 +36,177 @@
     {% endblock %}
   </head>
   <body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress-container">
+      <div class="reading-progress-bar" id="readingProgressBar"></div>
+    </div>
+
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="/">
-          <i class="fas fa-pencil-alt me-2"></i>Stories
+        <a class="navbar-brand" href="{{ url_for('get_all_posts') }}">
+          <span class="brand-text">Stories</span>
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarResponsive"
-          aria-controls="navbarResponsive"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <!-- Main Navigation -->
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('get_all_posts') }}">
-                <i class="fas fa-home me-1"></i>Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('about') }}">
-                <i class="fas fa-info-circle me-1"></i>Our Story
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('contact') }}">
-                <i class="fas fa-envelope me-1"></i>Contact
-              </a>
-            </li>
-          </ul>
-
-          <!-- Search Form -->
-          <form class="search-form d-flex" action="{{ url_for('search') }}" method="get">
-            <i class="fas fa-search search-icon"></i>
-            <input type="search" name="q" class="search-input" placeholder="Search..." aria-label="Search">
-          </form>
-
-          <!-- User/Auth Controls -->
-          <ul class="navbar-nav align-items-center ms-auto">
-            {% if current_user.is_authenticated %}
-              <li class="nav-item me-3">
-                <a href="{{ url_for('dashboard') }}" class="user-profile">
-                  <img src="{{ current_user.email | gravatar }}" alt="{{ current_user.name }}" class="nav-user-img">
-                  <span class="nav-username">{{ current_user.name }}</span>
-                </a>
-              </li>
-              
-              {% if current_user.id == 1: %}
-              <li class="nav-item">
-                <a class="nav-link write-story-btn" href="{{ url_for('add_new_post') }}">
-                  <i class="fas fa-plus me-1"></i>Write Story
-                </a>
-              </li>
-              {% endif %}
-              
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('logout') }}">
-                  <i class="fas fa-sign-out-alt me-1"></i>Sign Out
-                </a>
-              </li>
-            {% else %}
-              <div class="auth-buttons d-flex">
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('login') }}">Sign in</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link register-btn" href="{{ url_for('register') }}">
-                    Get started
+        
+        <div class="nav-actions d-flex align-items-center order-lg-last">
+          <!-- Search Bar -->
+          <div class="search-container me-3">
+            <button class="search-toggle" aria-label="Toggle search">
+              <i class="fas fa-search"></i>
+            </button>
+            <div class="search-box">
+              <input type="text" placeholder="Search stories..." class="search-input">
+              <div class="search-suggestions">
+                <div class="suggestion-group">
+                  <h6 class="suggestion-title">Popular Searches</h6>
+                  <a href="#" class="suggestion-item">
+                    <i class="fas fa-trending-up"></i>
+                    <span>Technology</span>
                   </a>
-                </li>
+                  <a href="#" class="suggestion-item">
+                    <i class="fas fa-trending-up"></i>
+                    <span>Writing</span>
+                  </a>
+                </div>
               </div>
-            {% endif %}
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="theme-toggle me-3" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+
+          {% if current_user.is_authenticated %}
+            <div class="user-menu-container">
+              <button class="user-profile" id="userMenuButton" aria-label="User menu" aria-expanded="false">
+                <img src="{{ current_user.email | gravatar }}" alt="{{ current_user.name }}" class="nav-user-img">
+                <span class="nav-username">{{ current_user.name }}</span>
+                <i class="fas fa-chevron-down ms-2"></i>
+              </button>
+              <div class="user-menu" id="userMenu">
+                <a href="{{ url_for('dashboard') }}" class="user-menu-item">
+                  <i class="fas fa-columns"></i>
+                  Dashboard
+                </a>
+                {% if current_user.id == 1 %}
+                <a href="{{ url_for('add_new_post') }}" class="user-menu-item">
+                  <i class="fas fa-plus"></i>
+                  Write Story
+                </a>
+                {% endif %}
+                <div class="user-menu-divider"></div>
+                <a href="{{ url_for('logout') }}" class="user-menu-item text-danger">
+                  <i class="fas fa-sign-out-alt"></i>
+                  Sign Out
+                </a>
+              </div>
+            </div>
+          {% else %}
+            <div class="auth-buttons">
+              <a href="{{ url_for('login') }}" class="nav-link">Sign in</a>
+              <a href="{{ url_for('register') }}" class="nav-link register-btn">Get started</a>
+            </div>
+          {% endif %}
+
+          <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav mx-auto py-4 py-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('get_all_posts') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('about') }}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
+
     {% block content %}
     {% endblock %}
+
+    <!-- Scripts -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Theme Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const html = document.documentElement;
+        
+        themeToggle.addEventListener('click', () => {
+          const currentTheme = html.getAttribute('data-theme');
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          html.setAttribute('data-theme', newTheme);
+          
+          const icon = themeToggle.querySelector('i');
+          icon.classList.toggle('fa-moon');
+          icon.classList.toggle('fa-sun');
+          
+          localStorage.setItem('theme', newTheme);
+        });
+
+        // Reading Progress
+        const progressBar = document.getElementById('readingProgressBar');
+        
+        window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          progressBar.style.width = scrolled + '%';
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('mainNav');
+        
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+          } else {
+            navbar.classList.remove('scrolled');
+          }
+        });
+
+        // Search Toggle
+        const searchToggle = document.querySelector('.search-toggle');
+        const searchBox = document.querySelector('.search-box');
+        
+        searchToggle.addEventListener('click', () => {
+          searchBox.classList.toggle('active');
+          if (searchBox.classList.contains('active')) {
+            searchBox.querySelector('input').focus();
+          }
+        });
+
+        // User Menu Toggle
+        const userMenuButton = document.getElementById('userMenuButton');
+        const userMenu = document.getElementById('userMenu');
+        
+        if (userMenuButton) {
+          userMenuButton.addEventListener('click', () => {
+            userMenu.classList.toggle('active');
+            userMenuButton.setAttribute('aria-expanded', 
+              userMenuButton.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
+          });
+
+          // Close menu when clicking outside
+          document.addEventListener('click', (e) => {
+            if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
+              userMenu.classList.remove('active');
+              userMenuButton.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+      });
+    </script>
+
     {% block scripts %}
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
