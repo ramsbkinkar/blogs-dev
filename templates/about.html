@@ -1,0 +1,93 @@
+{% include "header.html" %}
+
+<div class="about-header">
+  <div class="container text-center">
+    <h1 class="about-title">Our Story</h1>
+    <p class="about-subtitle">Empowering voices, connecting minds, and sharing stories that matter.</p>
+  </div>
+</div>
+
+<div class="about-content">
+  <div class="container">
+    <div class="about-section">
+      <h2>Who We Are</h2>
+      <p>Welcome to our blogging community! We're passionate about creating a space where ideas flourish and stories come to life. Our platform is built on the belief that everyone has a unique perspective worth sharing.</p>
+      <p>Founded in 2024, we've grown from a small group of writers to a vibrant community of diverse voices. Our mission is to provide a platform that combines beautiful design with powerful functionality, making it easy for writers to focus on what matters most - their content.</p>
+    </div>
+
+    <div class="about-section">
+      <h2>Our Values</h2>
+      <p>At the heart of our platform lies a commitment to:</p>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h3 class="h5 mb-3">Quality Content</h3>
+              <p class="mb-0">We believe in the power of well-crafted stories and thoughtful discussions that engage and inspire.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h3 class="h5 mb-3">Community First</h3>
+              <p class="mb-0">We foster an inclusive environment where writers and readers can connect, learn, and grow together.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h3 class="h5 mb-3">Innovation</h3>
+              <p class="mb-0">We continuously evolve our platform to provide the best possible experience for our community.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h2>Meet Our Team</h2>
+      <p>Behind every great platform is a dedicated team working to make your experience exceptional.</p>
+      <div class="team-grid">
+        <div class="team-member">
+          <img src="{{ url_for('static', filename='img/team/team1.jpg') }}" alt="Team Member">
+          <h3>Sarah Johnson</h3>
+          <p>Founder & CEO</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="team-member">
+          <img src="{{ url_for('static', filename='img/team/team2.jpg') }}" alt="Team Member">
+          <h3>Michael Chen</h3>
+          <p>Head of Design</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="team-member">
+          <img src="{{ url_for('static', filename='img/team/team3.jpg') }}" alt="Team Member">
+          <h3>Emma Rodriguez</h3>
+          <p>Community Manager</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h2>Join Our Community</h2>
+      <p>Whether you're a seasoned writer or just starting your journey, there's a place for you here. Share your stories, connect with like-minded individuals, and be part of something meaningful.</p>
+      <div class="text-center mt-4">
+        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Start Writing Today</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "footer.html" %}

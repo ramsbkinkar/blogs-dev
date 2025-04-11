@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="A modern blogging platform" />
+    <meta name="author" content="" />
+    <title>Stories | Modern Blog Platform</title>
+    {% block styles %}
+    <!-- Load Bootstrap-Flask CSS here -->
+    {{ bootstrap.load_css() }}
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='assets/favicon.ico') }}"
+    />
+    <!-- Font Awesome icons (free version)-->
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet" />
+    {% endblock %}
+  </head>
+  <body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="fas fa-pencil-alt me-2"></i>Stories
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <!-- Main Navigation -->
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('get_all_posts') }}">
+                <i class="fas fa-home me-1"></i>Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('about') }}">
+                <i class="fas fa-info-circle me-1"></i>Our Story
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('contact') }}">
+                <i class="fas fa-envelope me-1"></i>Contact
+              </a>
+            </li>
+          </ul>
+
+          <!-- Search Form -->
+          <form class="search-form d-flex" action="{{ url_for('search') }}" method="get">
+            <i class="fas fa-search search-icon"></i>
+            <input type="search" name="q" class="search-input" placeholder="Search..." aria-label="Search">
+          </form>
+
+          <!-- User/Auth Controls -->
+          <ul class="navbar-nav align-items-center ms-auto">
+            {% if current_user.is_authenticated %}
+              <li class="nav-item me-3">
+                <a href="{{ url_for('dashboard') }}" class="user-profile">
+                  <img src="{{ current_user.email | gravatar }}" alt="{{ current_user.name }}" class="nav-user-img">
+                  <span class="nav-username">{{ current_user.name }}</span>
+                </a>
+              </li>
+              
+              {% if current_user.id == 1: %}
+              <li class="nav-item">
+                <a class="nav-link write-story-btn" href="{{ url_for('add_new_post') }}">
+                  <i class="fas fa-plus me-1"></i>Write Story
+                </a>
+              </li>
+              {% endif %}
+              
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">
+                  <i class="fas fa-sign-out-alt me-1"></i>Sign Out
+                </a>
+              </li>
+            {% else %}
+              <div class="auth-buttons d-flex">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('login') }}">Sign in</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link register-btn" href="{{ url_for('register') }}">
+                    Get started
+                  </a>
+                </li>
+              </div>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>

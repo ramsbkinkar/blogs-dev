@@ -1,0 +1,40 @@
+{% include "header.html" %}
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            {% if query %}
+                <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+                {% if posts %}
+                    {% for post in posts %}
+                    <div class="post-preview">
+                        <a href="{{ url_for('show_post', post_id=post.id) }}">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">{{ post.author.name }}</a>
+                            on {{ post.date }}
+                        </p>
+                    </div>
+                    {% if not loop.last %}
+                        <hr class="my-4" />
+                    {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No posts found matching your search.</p>
+                {% endif %}
+            {% else %}
+                <p class="text-muted">Please enter a search term to find posts.</p>
+            {% endif %}
+
+            <!-- Back to Home Button -->
+            <div class="d-flex justify-content-center mb-4">
+                <a class="btn btn-primary text-uppercase" href="{{ url_for('get_all_posts') }}">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "footer.html" %} 

@@ -1,0 +1,232 @@
+{% include "header.html" %}
+
+<div class="dashboard-page">
+  <div class="container">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-lg-3">
+        <div class="dashboard-sidebar">
+          <div class="user-profile-card">
+            <img src="{{ current_user.email | gravatar }}" alt="{{ current_user.name }}" class="dashboard-avatar">
+            <h3 class="dashboard-username">{{ current_user.name }}</h3>
+            <p class="dashboard-email">{{ current_user.email }}</p>
+            {% if current_user.id == 1 %}
+              <span class="admin-badge">Admin</span>
+            {% endif %}
+          </div>
+          
+          <nav class="dashboard-nav">
+            <a href="#overview" class="dashboard-nav-item active" data-bs-toggle="tab">
+              <i class="fas fa-home"></i> Overview
+            </a>
+            <a href="#my-posts" class="dashboard-nav-item" data-bs-toggle="tab">
+              <i class="fas fa-pencil-alt"></i> My Posts
+            </a>
+            <a href="#my-comments" class="dashboard-nav-item" data-bs-toggle="tab">
+              <i class="fas fa-comments"></i> My Comments
+            </a>
+            {% if current_user.id == 1 %}
+            <div class="admin-section">
+              <div class="admin-section-title">Admin Panel</div>
+              <a href="#all-users" class="dashboard-nav-item" data-bs-toggle="tab">
+                <i class="fas fa-users"></i> All Users
+              </a>
+              <a href="#all-posts" class="dashboard-nav-item" data-bs-toggle="tab">
+                <i class="fas fa-file-alt"></i> All Posts
+              </a>
+              <a href="#site-stats" class="dashboard-nav-item" data-bs-toggle="tab">
+                <i class="fas fa-chart-bar"></i> Site Statistics
+              </a>
+            </div>
+            {% endif %}
+          </nav>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-lg-9">
+        <div class="tab-content">
+          <!-- Overview Tab -->
+          <div class="tab-pane fade show active" id="overview">
+            <div class="dashboard-card">
+              <h2>Welcome back, {{ current_user.name }}!</h2>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <i class="fas fa-pencil-alt"></i>
+                  <h3>{{ user_posts|length }}</h3>
+                  <p>Posts Written</p>
+                </div>
+                <div class="stat-card">
+                  <i class="fas fa-comments"></i>
+                  <h3>{{ user_comments|length }}</h3>
+                  <p>Comments Made</p>
+                </div>
+                <div class="stat-card">
+                  <i class="fas fa-heart"></i>
+                  <h3>{{ total_likes }}</h3>
+                  <p>Total Likes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- My Posts Tab -->
+          <div class="tab-pane fade" id="my-posts">
+            <div class="dashboard-card">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>My Posts</h2>
+                <a href="{{ url_for('add_new_post') }}" class="btn btn-primary">
+                  <i class="fas fa-plus"></i> New Post
+                </a>
+              </div>
+              <div class="post-list">
+                {% for post in user_posts %}
+                <div class="dashboard-post-item">
+                  <div class="post-info">
+                    <h3><a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a></h3>
+                    <p class="post-meta">
+                      <i class="fas fa-comments"></i> {{ post.comments|length }} Comments
+                    </p>
+                  </div>
+                  <div class="post-actions">
+                    <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+                      <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-sm btn-outline-danger">
+                      <i class="fas fa-trash"></i> Delete
+                    </a>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- My Comments Tab -->
+          <div class="tab-pane fade" id="my-comments">
+            <div class="dashboard-card">
+              <h2>My Comments</h2>
+              <div class="comment-list">
+                {% for comment in user_comments %}
+                <div class="dashboard-comment-item">
+                  <div class="comment-content">{{ comment.text|safe }}</div>
+                  <p class="comment-meta">
+                    On post: <a href="{{ url_for('show_post', post_id=comment.post_id) }}">{{ comment.parent_post.title }}</a>
+                  </p>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          {% if current_user.id == 1 %}
+          <!-- Admin: All Users Tab -->
+          <div class="tab-pane fade" id="all-users">
+            <div class="dashboard-card">
+              <h2>All Users</h2>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th>Email</th>
+                      <th>Posts</th>
+                      <th>Comments</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for user in all_users %}
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="{{ user.email | gravatar }}" alt="{{ user.name }}" class="user-avatar-sm">
+                          {{ user.name }}
+                        </div>
+                      </td>
+                      <td>{{ user.email }}</td>
+                      <td>{{ user.posts|length }}</td>
+                      <td>{{ user.comments|length }}</td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-danger">
+                          <i class="fas fa-ban"></i> Block
+                        </button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin: All Posts Tab -->
+          <div class="tab-pane fade" id="all-posts">
+            <div class="dashboard-card">
+              <h2>All Posts</h2>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Author</th>
+                      <th>Date</th>
+                      <th>Comments</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for post in all_posts %}
+                    <tr>
+                      <td>
+                        <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a>
+                      </td>
+                      <td>{{ post.author.name }}</td>
+                      <td>{{ post.comments|length }}</td>
+                      <td>
+                        <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-sm btn-outline-danger">
+                          <i class="fas fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin: Site Statistics Tab -->
+          <div class="tab-pane fade" id="site-stats">
+            <div class="dashboard-card">
+              <h2>Site Statistics</h2>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <i class="fas fa-users"></i>
+                  <h3>{{ all_users|length }}</h3>
+                  <p>Total Users</p>
+                </div>
+                <div class="stat-card">
+                  <i class="fas fa-file-alt"></i>
+                  <h3>{{ all_posts|length }}</h3>
+                  <p>Total Posts</p>
+                </div>
+                <div class="stat-card">
+                  <i class="fas fa-comments"></i>
+                  <h3>{{ total_comments }}</h3>
+                  <p>Total Comments</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "footer.html" %} 

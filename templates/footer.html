@@ -1,0 +1,45 @@
+        <!-- Footer-->
+        <footer>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-10 text-center">
+                <div class="social-links mb-4">
+                  <a href="#!" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                  <a href="#!" title="Facebook">
+                    <i class="fab fa-facebook"></i>
+                  </a>
+                  <a href="#!" title="GitHub">
+                    <i class="fab fa-github"></i>
+                  </a>
+                  <a href="#!" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                  </a>
+                </div>
+                <div class="row justify-content-center mb-4">
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <input type="email" class="form-control" placeholder="Get stories in your inbox">
+                      <button class="btn btn-dark" type="button">Subscribe</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="footer-links mb-4">
+                  <a href="{{ url_for('about') }}" class="text-muted mx-2">About</a>
+                  <a href="{{ url_for('contact') }}" class="text-muted mx-2">Write</a>
+                  <a href="#" class="text-muted mx-2">Help</a>
+                  <a href="#" class="text-muted mx-2">Privacy</a>
+                  <a href="#" class="text-muted mx-2">Terms</a>
+                </div>
+                <p class="text-muted small mb-0">© 2024 Stories. All rights reserved.</p>
+              </div>
+            </div>
+          </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    </body>
+</html>

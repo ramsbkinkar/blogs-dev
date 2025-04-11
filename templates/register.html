@@ -1,0 +1,59 @@
+{% include "header.html" %}
+
+<div class="auth-page">
+  <div class="container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>Create Account</h1>
+        <p>Join our community of writers and readers</p>
+      </div>
+
+      <div class="auth-social">
+        <a href="#" class="auth-social-btn">
+          <i class="fab fa-google"></i>
+          <span>Google</span>
+        </a>
+        <a href="#" class="auth-social-btn">
+          <i class="fab fa-github"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+
+      <div class="auth-divider">
+        <span>or register with email</span>
+      </div>
+
+      <form class="auth-form" action="{{ url_for('register') }}" method="post" novalidate>
+        {{ form.csrf_token }}
+        <div class="form-group">
+          {{ form.name.label }}
+          {{ form.name(class="form-control", placeholder="Enter your name") }}
+        </div>
+        <div class="form-group">
+          {{ form.email.label }}
+          {{ form.email(class="form-control", placeholder="Enter your email") }}
+        </div>
+        <div class="form-group">
+          {{ form.password.label }}
+          {{ form.password(class="form-control", placeholder="Choose a password") }}
+        </div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-danger" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        {{ form.submit(class="btn btn-primary") }}
+      </form>
+
+      <div class="auth-footer">
+        <p>Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "footer.html" %}
